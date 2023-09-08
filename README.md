@@ -31,11 +31,20 @@ The response will not return data with tenant_id = 2
       "dataValue" : "6959e88d-4f66-4f3e-946e-1c695e7abf03_tenant_id_2",
       "id" : 8,
       "tenantId" : 2
-   },
-   {
-      "dataValue" : "8e9cf4f6-66f1-4d31-8ad3-946d3c60ed62_tenant_id_2",
-      "id" : 11,
-      "tenantId" : 2
    }
 ]
+```
+
+
+### 3. Testing Multi-tenant with Multi schema
+
+```shell
+# 1. Build database
+docker-compose -f docker/db_multi_schema.yaml up -d  
+
+# 2. Start application 
+
+# 3. Test with simple curl 
+curl -H "X-TENANT-ID: 2"  -X GET localhost:8080/data_log | json_pp 
+
 ```
