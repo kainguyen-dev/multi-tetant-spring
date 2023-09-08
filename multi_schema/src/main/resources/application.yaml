@@ -1,0 +1,101 @@
+spring:
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/data_log
+    driverClassName: org.postgresql.Driver
+    maxPoolSize: 32
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+      schema: public
+  application:
+    name: multi_tenant_foreign_key
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    user: postgres
+    password: postgres
+    enabled: true
+    default-schema: SHARED
+  jmx:
+    enabled: false
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: deferred
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate.jdbc.time_zone: UTC
+      hibernate.id.new_generator_mappings: true
+      hibernate.connection.provider_disables_autocommit: true
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: false
+      # modify batch size as necessary
+      hibernate.jdbc.batch_size: 25
+      hibernate.order_inserts: true
+      hibernate.order_updates: true
+      hibernate.query.fail_on_pagination_over_collection_fetch: true
+      hibernate.query.in_clause_parameter_padding: true
+      hibernate:
+        default_schema: public
+        # Enable formatted SQL query logging
+        format_sql: true
+        show_sql: true
+        default_entity_mode: dynamic-map
+    hibernate:
+      ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+server:
+  servlet:
+    session:
+      cookie:
+        http-only: true
+
+###############################################################################
+# database configuration
+###############################################################################
+database:
+  service: POC_MULTI_TENANT
+  datasource:
+    url: jdbc:postgresql://localhost:5432/data_log
+    driverClassName: org.postgresql.Driver
+    maxPoolSize: 32
+    idleTimeout: 300000
+    minIdle: 10
+    tenants:
+      username: postgres
+      password: postgres
+    shared:
+      username: postgres
+      password: postgres
+  liquibase:
+    datasource:
+      username: postgres
+      password: postgres
+    tenants: CAR_EV,US_BATTERY
+
+###############################################################################
+# Hibernate Configuration
+###############################################################################
+hibernate:
+  dialect: org.hibernate.dialect.PostgreSQLDialect
+  format_sql: true
+  show_sql: false
+  jdbc.batch_size: 2000
+  order_inserts: true
+  auto_quote_keyword: true
+  globally_quoted_identifiers: true
+  #  physical_naming_strategy: com.vnet.environment.helper.VNetHibernatePhysicalNamingStrategy
+  #  session_factory.statement_inspector: com.vnet.poe.common.helper.VNetSqlStatementInspector
+  connection.provider_disables_autocommit: true
+  cache:
+    use_second_level_cache: false
+    use_query_cache: false
+  generate_statistics: false
+  id.new_generator_mappings: false
+  default_schema: shared

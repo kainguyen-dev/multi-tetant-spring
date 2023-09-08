@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+    <changeSet id="1" author="DUY_NTC" context="tenant">
+        <createTable tableName="DATA_LOG">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="DATA_LOG_PK"/>
+            </column>
+            <column name="data_value" type="varchar(250)">
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="DUY_NTC" context="shared">
+        <createTable tableName="TENANT">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="TENANT_ID_PK"/>
+            </column>
+            <column name="name" type="varchar(250)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="DUY_NTC" context="shared">
+        <loadData
+                file="fake_data/tenant.csv"
+                separator=","
+                tableName="TENANT"
+                usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="name" type="varchar(250)"/>
+        </loadData>
+    </changeSet>
+
+    <changeSet id="4" author="DUY_NTC" context="tenant">
+        <loadData
+                file="fake_data/data_log_car_ev.csv"
+                separator=","
+                tableName="DATA_LOG"
+                usePreparedStatements="true"
+                schemaName="CAR_EV">
+            <column name="data_value" type="varchar(250)"/>
+        </loadData>
+    </changeSet>
+
+    <changeSet id="5" author="DUY_NTC" context="tenant">
+        <loadData
+                file="fake_data/data_log_us_battery.csv"
+                separator=","
+                tableName="DATA_LOG"
+                usePreparedStatements="true"
+                schemaName="US_BATTERY">
+            <column name="data_value" type="varchar(250)"/>
+        </loadData>
+    </changeSet>
+</databaseChangeLog>
