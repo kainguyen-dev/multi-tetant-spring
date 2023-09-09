@@ -1,0 +1,12 @@
+[
+  {
+    "schema": "CAR_EV",
+    "filePath": "fake_data/data_log_car_ev.csv",
+    "completed": false
+  },
+  {
+    "schema": "US_BATTERY",
+    "filePath": "fake_data/data_log_us_battery.csv",
+    "completed": false
+  }
+]

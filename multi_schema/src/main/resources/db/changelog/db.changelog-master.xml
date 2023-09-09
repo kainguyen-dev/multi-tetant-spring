@@ -39,25 +39,4 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
         </loadData>
     </changeSet>
 
-    <changeSet id="4" author="DUY_NTC" context="tenant">
-        <loadData
-                file="fake_data/data_log_car_ev.csv"
-                separator=","
-                tableName="DATA_LOG"
-                usePreparedStatements="true"
-                schemaName="CAR_EV">
-            <column name="data_value" type="varchar(250)"/>
-        </loadData>
-    </changeSet>
-
-    <changeSet id="5" author="DUY_NTC" context="tenant">
-        <loadData
-                file="fake_data/data_log_us_battery.csv"
-                separator=","
-                tableName="DATA_LOG"
-                usePreparedStatements="true"
-                schemaName="US_BATTERY">
-            <column name="data_value" type="varchar(250)"/>
-        </loadData>
-    </changeSet>
 </databaseChangeLog>
