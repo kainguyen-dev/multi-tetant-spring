@@ -1,5 +1,6 @@
-package com.tenant.demo.multi_schema.config;
+package com.tenant.demo.multi_schema.config.db;
 
+import com.tenant.demo.multi_schema.config.tenant.TenantConstants;
 import com.tenant.demo.multi_schema.repository.shared.SharedRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
@@ -26,11 +27,12 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = {"com.tenant.demo.multi_schema.repository.shared"}, repositoryBaseClass = SharedRepository.class, entityManagerFactoryRef = "sharedEntityManagerFactory", transactionManagerRef = "sharedTransactionManager")
+@EnableJpaRepositories(basePackages = {"com.tenant.demo.multi_schema.repository.shared"}, repositoryBaseClass = SharedRepository.class,
+        entityManagerFactoryRef = "sharedEntityManagerFactory", transactionManagerRef = "sharedTransactionManager")
 @Profile("!test")
 @RequiredArgsConstructor
 @Slf4j
-public class SharedJpaConfiguration {
+public class SharedDbConfiguration {
 
     final HikariDataSource sharedDatasource = new HikariDataSource();
     private final Environment environment;
@@ -43,9 +45,9 @@ public class SharedJpaConfiguration {
 
         sharedDatasource.setUsername(environment.getProperty("database.shared.username"));
         sharedDatasource.setPassword(environment.getProperty("database.shared.password"));
-        sharedDatasource.setJdbcUrl(environment.getProperty("database.datasource.url"));
+        sharedDatasource.setJdbcUrl(environment.getProperty("database.shared.url"));
         sharedDatasource.setDriverClassName(environment.getProperty("database.datasource.driverClassName"));
-        sharedDatasource.setPoolName(environment.getProperty("database.service", "POC_MULTI_TENANT") + "-service-shared-connection-pool");
+        sharedDatasource.setPoolName(environment.getProperty("database.service") + "_SHARED_POOL");
         sharedDatasource.setMaximumPoolSize(environment.getProperty("database.datasource.maxPoolSize", Integer.class, 32));
 
         sharedDatasource.setLeakDetectionThreshold(60 * 30 * 1000);
@@ -53,7 +55,7 @@ public class SharedJpaConfiguration {
         sharedDatasource.setValidationTimeout(60 * 1000);
         sharedDatasource.setConnectionTimeout(60 * 1000);
         sharedDatasource.setAutoCommit(false);
-
+        sharedDatasource.setSchema(TenantConstants.SHARED_SCHEMA);
         log.info("sharedDatasource setup successfully");
         return sharedDatasource;
     }

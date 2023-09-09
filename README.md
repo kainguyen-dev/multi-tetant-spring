@@ -26,11 +26,6 @@ The response will not return data with tenant_id = 2
       "dataValue" : "fcfe5c62-529e-45b2-9de2-87716942d0a1_tenant_id_2",
       "id" : 5,
       "tenantId" : 2
-   },
-   {
-      "dataValue" : "6959e88d-4f66-4f3e-946e-1c695e7abf03_tenant_id_2",
-      "id" : 8,
-      "tenantId" : 2
    }
 ]
 ```
@@ -40,11 +35,11 @@ The response will not return data with tenant_id = 2
 
 ```shell
 # 1. Build database
-docker-compose -f docker/db_multi_schema.yaml up -d  
+docker-compose -f docker/db_multi_schema.yaml up --force-recreate -V -d 
 
 # 2. Start application 
 
 # 3. Test with simple curl 
-curl -H "X-TENANT-ID: 2"  -X GET localhost:8080/data_log | json_pp 
+curl --location 'localhost:8080/data_log' --header 'X-TENANT-ID: CAR_EV' | json_pp 
 
 ```
