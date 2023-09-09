@@ -31,7 +31,7 @@ The response will not return data with tenant_id = 2
 ```
 
 
-### 3. Testing Multi-tenant with Multi schema
+### 2. Testing Multi-tenant with Multi schema
 
 ```shell
 # 1. Build database
@@ -42,4 +42,18 @@ docker-compose -f docker/db_multi_schema.yaml up --force-recreate -V -d
 # 3. Test with simple curl 
 curl --location 'localhost:8080/data_log' --header 'X-TENANT-ID: CAR_EV' | json_pp 
 
+```
+The response will not return data with tenant_id = CAR_EV
+
+```json
+[
+  {
+    "id": 1,
+    "dataValue": "6959e88d-4f66-4f3e-946e-1c695e7abf03_CAR_EV"
+  },
+  {
+    "id": 2,
+    "dataValue": "44f7d081-5c8d-4a95-bc59-5a5e5c9a4421_CAR_EV"
+  }
+]
 ```
